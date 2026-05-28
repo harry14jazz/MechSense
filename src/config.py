@@ -1,0 +1,17 @@
+from pydantic_settings import BaseSettings
+
+
+class Settings(BaseSettings):
+    DATABASE_URL: str
+
+    ENVIRONMENT: str = "development"
+
+    PROJECT_NAME: str = "MechSense API"
+    VERSION: str = "1.0.0"
+
+    class Config:
+        env_file = ".env"
+        case_sensitive = True
+
+# Inisialisasi object settings agar bisa di-import di file lain
+settings = Settings() # pyright: ignore[reportCallIssue]

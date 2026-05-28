@@ -1,3 +1,9 @@
-mechsense_ve/
+# Mengabaikan file hasil kompilasi Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
+# Mengabaikan environment dan konfigurasi lokal
+mechsense_ve/
 .env
