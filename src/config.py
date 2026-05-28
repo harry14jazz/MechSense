@@ -6,12 +6,11 @@ class Settings(BaseSettings):
 
     ENVIRONMENT: str = "development"
 
-    PROJECT_NAME: str = "MechSense API"
+    PROJECT_NAME: str = "MechSense"
     VERSION: str = "1.0.0"
 
     class Config:
         env_file = ".env"
         case_sensitive = True
 
-# Inisialisasi object settings agar bisa di-import di file lain
 settings = Settings() # pyright: ignore[reportCallIssue]
