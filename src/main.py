@@ -3,6 +3,8 @@ from sqlalchemy import text
 
 import src.equipment.models
 import src.master_data.models  # noqa: F401
+import src.component.models  # noqa: F401
+
 from src.config import settings
 from src.database import SCHEMA_NAME, Base, engine
 

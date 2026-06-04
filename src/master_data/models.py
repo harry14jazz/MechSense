@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String, Numeric
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -25,7 +25,7 @@ class Site(Base, AuditMixin):
     long_lat = Column(String)
     establishment_year = Column(Integer)
     end_target_year = Column(Integer)
-    
+
     equipments = relationship("Equipment", back_populates="site")
 
 
@@ -58,3 +58,26 @@ class EquipmentModel(Base, AuditMixin):
     brand = relationship("Brand", back_populates="models")
     equipment_class = relationship("EquipmentClass", back_populates="models")
     equipments = relationship("Equipment", back_populates="model")
+    component_rules = relationship("ModelComponents", back_populates="model")
+
+class ComponentMaster(Base, AuditMixin):
+    __tablename__ = "component_masters"
+    component_code = Column(String, unique=True, index=True)
+    name = Column(String)
+    description = Column(String, nullable=True)
+
+    # Relationships
+    instances = relationship("ComponentInstance", back_populates="master")
+    model_rules = relationship("ModelComponents", back_populates="component_master")
+
+class ModelComponents(Base, AuditMixin):
+    __tablename__ = "model_components"
+
+    model_id = Column(UUID(as_uuid=True), ForeignKey("equipment_models.id"))
+    component_master_id = Column(UUID(as_uuid=True), ForeignKey("component_masters.id"))
+    target_life_hm = Column(Numeric(10, 2), nullable=False)
+    default_qty = Column(Integer, default=1)
+
+    # Relationships
+    model = relationship("EquipmentModel", back_populates="component_rules")
+    component_master = relationship("ComponentMaster", back_populates="model_rules")
